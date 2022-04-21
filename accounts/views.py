@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import CreateView
+from django.contrib.auth.views import LoginView, LogoutView
 from .forms import EmployeeRegistrationForm, EmployerRegistrationForm, NewUserRegistrationForm
 
 
@@ -19,3 +20,11 @@ class EmployerRegistrationView(CreateView):
     template_name = 'signup.html'
     form_class = EmployerRegistrationForm
     success_url = '/'
+
+
+class LogIn(LoginView):
+    template_name = 'accounts/login.html'
+
+
+class LogOut(LogoutView):
+    template_name='accounts/logout.html'
