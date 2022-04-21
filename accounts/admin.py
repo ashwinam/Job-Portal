@@ -26,6 +26,22 @@ class UserAdminConfig(UserAdmin):
             'fields': ('email', 'name', 'password1', 'password2', 'is_active', 'is_staff')}
          ),
     )
+
+class EmployeeAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {'fields': ('email', 'name','password')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active')}),
+        ('Personal', {'fields': ('about',)}),
+        ('Other', {'fields': ('start_date',)}),
+    )
+
+class EmployerAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (None, {'fields': ('email', 'name','password')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active')}),
+        ('Personal', {'fields': ('about',)}),
+        ('Other', {'fields': ('start_date',)}),
+    )
 admin.site.register(NewUser, UserAdminConfig)
-admin.site.register(Employee)
-admin.site.register(Employer)
+admin.site.register(Employee, EmployeeAdmin)
+admin.site.register(Employer, EmployerAdmin)
