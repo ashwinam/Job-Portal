@@ -1,37 +1,12 @@
+from weakref import proxy
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from .managers import CustomAccountManager
 
 
-# Create your models here.
-
-class CustomAccountManager(BaseUserManager):
-    def create_superuser(self, email, name, password, **other_fields):
-
-        other_fields.setdefault('is_staff', True)
-        other_fields.setdefault('is_superuser', True)
-        other_fields.setdefault('is_active', True)
-
-        if other_fields.get('is_staff') is not True:
-            raise ValueError(
-                'Superuser must be assigned to is_staff=True.')
-        if other_fields.get('is_superuser') is not True:
-            raise ValueError(
-                'Superuser must be assigned to is_superuser=True.')
-
-        return self.create_user(email, name, password, **other_fields)
-
-    def create_user(self, email, name, password, **other_fields):
-
-        if not email:
-            raise ValueError(_('You must provide an email address.'))
-        email = self.normalize_email(email)
-        user = self.model(email=email, name=name, password=password, **other_fields)
-        user.set_password(password)
-        user.save()
-        return user
-
+# Extending Custom User Model
 class NewUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
     name = models.CharField(max_length=150, blank=True)
@@ -44,8 +19,44 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
 
+    class Types(models.TextChoices):
+        EMPLOYEE = "EMPLOYEE", "Employee"
+        EMPLOYER = "EMPLOYER", "Employer"
+
+    default_type = Types.EMPLOYEE
+
+    type = models.CharField(_('Types'), max_length=100, choices=Types.choices, default=default_type)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.type = self.default_type
+        return super().save(*args, **kwargs)
+
     def __str__(self) -> str:
         return self.email
+
+# model managers for Employee & Employer Tables
+class EmployeeManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        return super().get_queryset(*args, **kwargs).filter(type=NewUser.Types.EMPLOYEE)
+
+class EmployerManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        return super().get_queryset(*args, **kwargs).filter(type=NewUser.Types.EMPLOYER)
+
+# Create a Proxy Model Referrence for Employee & Employer User Types
+class Employee(NewUser):
+    default_type = NewUser.Types.EMPLOYEE
+    objects = EmployeeManager()
+    class Meta:
+        proxy = True
+
+
+class Employer(NewUser):
+    default_type = NewUser.Types.EMPLOYER
+    objects = EmployerManager()
+    class Meta:
+        proxy = True
 
 
 
