@@ -1,11 +1,13 @@
 from weakref import proxy
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from .managers import CustomAccountManager
 
 
+# ------------------------User Creation--------------------------
 # Extending Custom User Model
 class NewUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
@@ -60,3 +62,29 @@ class Employer(NewUser):
 
 
 
+# --------------------------------User Profile-------------------------
+class EmployerProfile(models.Model):
+    employer = models.OneToOneField(Employer, on_delete=models.CASCADE)
+    profile_pic = models.ImageField(default='profile_pics/default.jpg', upload_to='profile_pics')
+    phone_regex = RegexValidator( regex = r'^\d{10}$',message = "phone number should exactly be in 10 digits")
+    phone = models.CharField(max_length=255, validators=[phone_regex], blank = True, null=True)
+
+    def __str__(self) -> str:
+        return self.employer.name
+
+class EmployeeProfile(models.Model):
+    employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
+    profile_pic = models.ImageField(default='profile_pics/default.jpg', upload_to='profile_pics')
+    phone_regex = RegexValidator( regex = r'^\d{10}$',message = "phone number should exactly be in 10 digits")
+    phone = models.CharField(max_length=255, validators=[phone_regex], blank = True, null=True)
+    age = models.SmallIntegerField(null=True, blank=True)
+    
+    class Gender(models.TextChoices):
+        MALE = "MALE", "Male"
+        FEMALE = "FEMALE", "Female"
+        OTHER = "OTHER", "Other"
+
+    gender = models.CharField(_("Gender"), max_length=100, choices=Gender.choices, null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.employee.name
