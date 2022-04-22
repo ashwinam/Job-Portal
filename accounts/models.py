@@ -2,9 +2,11 @@ from weakref import proxy
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.validators import RegexValidator
+from django.db.models.signals import post_save
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from .managers import CustomAccountManager
+
 
 
 # ------------------------User Creation--------------------------
@@ -72,6 +74,28 @@ class EmployerProfile(models.Model):
     def __str__(self) -> str:
         return self.employer.name
 
+
+# django signal that instantiate the employer profile when it create or update
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        EmployerProfile.objects.create(employer=instance)
+        print(sender, instance, created)
+        print("profile created!")
+
+post_save.connect(create_profile, sender=Employer)
+
+def update_profile(sender, instance, created, **kwargs):
+    try:
+        if created == False:
+            instance.employerprofile.save()
+            print("profile updated!")
+    except AttributeError:
+        EmployerProfile.objects.create(employer=instance)
+
+post_save.connect(update_profile, sender=Employer)
+
+
+
 class EmployeeProfile(models.Model):
     employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
     profile_pic = models.ImageField(default='profile_pics/default.jpg', upload_to='profile_pics')
@@ -83,8 +107,26 @@ class EmployeeProfile(models.Model):
         MALE = "MALE", "Male"
         FEMALE = "FEMALE", "Female"
         OTHER = "OTHER", "Other"
-
     gender = models.CharField(_("Gender"), max_length=100, choices=Gender.choices, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.employee.name
+
+# django signal that instantiate the employe profile when it create or update
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        EmployeeProfile.objects.create(employee=instance)
+        print(sender, instance, created)
+        print("profile created!")
+
+post_save.connect(create_profile, sender=Employee)
+
+def update_profile(sender, instance, created, **kwargs):
+    try:
+        if created == False:
+            instance.employeeprofile.save()
+            print("profile updated!")
+    except AttributeError:
+        EmployeeProfile.objects.create(employee=instance)
+
+post_save.connect(update_profile, sender=Employee)

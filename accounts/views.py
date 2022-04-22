@@ -12,12 +12,12 @@ class NewUserRegistrationView(CreateView):
     success_url = '/'
 
 class EmployeeRegistrationView(CreateView):
-    template_name = 'signup.html'
+    template_name = 'accounts/signup.html'
     form_class = EmployeeRegistrationForm
     success_url = '/'
 
 class EmployerRegistrationView(CreateView):
-    template_name = 'signup.html'
+    template_name = 'accounts/signup.html'
     form_class = EmployerRegistrationForm
     success_url = '/'
 
