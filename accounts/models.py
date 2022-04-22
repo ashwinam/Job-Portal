@@ -65,6 +65,7 @@ class Employer(NewUser):
 
 
 # --------------------------------User Profile-------------------------
+# Employer Profile
 class EmployerProfile(models.Model):
     employer = models.OneToOneField(Employer, on_delete=models.CASCADE)
     profile_pic = models.ImageField(default='profile_pics/default.jpg', upload_to='profile_pics')
@@ -95,7 +96,7 @@ def update_profile(sender, instance, created, **kwargs):
 post_save.connect(update_profile, sender=Employer)
 
 
-
+# Employee Profile
 class EmployeeProfile(models.Model):
     employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
     profile_pic = models.ImageField(default='profile_pics/default.jpg', upload_to='profile_pics')
@@ -130,3 +131,58 @@ def update_profile(sender, instance, created, **kwargs):
         EmployeeProfile.objects.create(employee=instance)
 
 post_save.connect(update_profile, sender=Employee)
+
+
+# Other User Related Information
+class Company(models.Model):
+    company_representative = models.ForeignKey(Employer, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    establishment_date = models.DateTimeField(null=True, blank=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
+    website_url = models.URLField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class CompanyImages(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    images = models.ImageField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.company.name
+
+
+# User Education
+class Institution(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    certificate_name = models.CharField(max_length=100, null=True, blank=True)
+    institute_university_name = models.CharField(max_length=100, null=True, blank=True)
+    start_date = models.DateTimeField(null=True, blank=True)
+    complete_date = models.DateTimeField(null=True, blank=True)
+    percentage_cgpa = models.SmallIntegerField(null=True, blank=True)
+
+
+# User experience
+class Experience(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    is_current_job = models.BooleanField(default=False)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+    job_title = models.CharField(max_length=255, null=True, blank=True)
+    company_name =  models.CharField(max_length=255, null=True, blank=True)
+    job_location_city = models.CharField(max_length=255, null=True, blank=True)
+    job_location_state = models.CharField(max_length=255, null=True, blank=True)
+    job_location_country = models.CharField(max_length=255, null=True, blank=True)
+    about_job_role = models.TextField()
+
+# skill set
+class SkillSet(models.Model):
+    skill_name = models.CharField(max_length=255, null=True, blank=True)
+
+class user_skill_set(models.Model):
+    user = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    skill_set = models.ForeignKey(SkillSet, on_delete=models.CASCADE)
+
+
