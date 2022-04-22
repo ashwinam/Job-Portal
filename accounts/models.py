@@ -181,7 +181,7 @@ class Experience(models.Model):
 class SkillSet(models.Model):
     skill_name = models.CharField(max_length=255, null=True, blank=True)
 
-class user_skill_set(models.Model):
+class UserSkillSet(models.Model):
     user = models.ForeignKey(Employee, on_delete=models.CASCADE)
     skill_set = models.ForeignKey(SkillSet, on_delete=models.CASCADE)
 
