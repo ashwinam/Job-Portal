@@ -23,7 +23,8 @@ class EmployerRegistrationView(CreateView):
 
 
 class LogIn(LoginView):
-    template_name = 'accounts/login.html'
+    # template_name = 'accounts/login.html'
+    template_name = 'index.html'
 
 
 class LogOut(LogoutView):

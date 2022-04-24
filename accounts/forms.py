@@ -1,6 +1,6 @@
 from dataclasses import fields
 from .models import NewUser, Employee, Employer
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 
 class NewUserRegistrationForm(UserCreationForm):
