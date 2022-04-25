@@ -1,6 +1,6 @@
-from dataclasses import fields
+from django import forms
 from .models import NewUser, Employee, Employer
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 
 
 class NewUserRegistrationForm(UserCreationForm):
@@ -32,3 +32,8 @@ class EmployerRegistrationForm(UserCreationForm):
             'password1',
             'password2'
         ]
+
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(required=True)
+    password = forms.CharField(widget=forms.PasswordInput)

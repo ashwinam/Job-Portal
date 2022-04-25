@@ -1,9 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.contrib.auth.forms import AuthenticationForm
 
-# Create your views here.
+from accounts.forms import LoginForm
 
 def index(request):
-    context = {'form':AuthenticationForm}
+    context = {'form':LoginForm}
     return render(request, "index.html", context)

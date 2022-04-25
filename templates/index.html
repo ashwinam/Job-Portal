@@ -71,7 +71,7 @@
     </nav>
 
     <!-- modal -->
-    <form method="post">
+    <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
         <div class="modal fade" id="LoginSignUp">
             <div class="modal-dialog" role="document">
