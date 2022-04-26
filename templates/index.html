@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load custom_filters %}
 {% load static %}
 
 <head>
@@ -83,11 +84,104 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>{{form.as_p}}</p>
+                        {{ form.non_field_errors }}
+                        <label for="id_email" class="login-labels">Email Address*</label>
+                        {{ form.email.errors }}
+                        {{ form.email|add_class:'form-control'|add_placeholder:'name@email.com'}}
+                        <label for="id_password" class="login-labels">Password*</label>
+                        {{ form.password.errors }}
+                        {{ form.password|add_class:'form-control'|add_placeholder:'Password' }}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary my-3">Log In</button>
+                        </div>
+                        <p>Don't Have an Account? <a href="{% url 'emp_user' %}" data-bs-toggle="modal"
+                                data-bs-target="#EmployeeModal">Sign up</a> Here</p>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Log In</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Registration Employee Modal -->
+    <form action="{% url 'emp_user' %}" method="post">
+        {% csrf_token %}
+        <div class="modal fade" id="EmployeeModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Employee</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                       <!-- <p>{{reg_form.as_p}}</p>-->
+                        {{ reg_form.non_field_errors }}
+                        <label for="id_name" class="login-labels">Name*</label>
+                        {{ reg_form.name.errors }}
+                        {{ reg_form.name|add_class:'form-control'|add_placeholder:'Your Name'}}
+                        <label for="id_email" class="login-labels">Email Address*</label>
+                        {{ reg_form.email.errors }}
+                        {{ reg_form.email|add_class:'form-control'|add_placeholder:'name@email.com'}}
+                        <label for="id_password1" class="login-labels">Password*</label>
+                        {{ reg_form.password1.errors }}
+                        {{ reg_form.password1|add_class:'form-control'|add_placeholder:'Password' }}
+                        <label for="id_password2" class="login-labels">Password Confirmation*</label>
+                        {{ reg_form.password2.errors }}
+                        {{ reg_form.password2|add_class:'form-control'|add_placeholder:'Password' }}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary my-3">submit</button>
+                        </div>
+                        <h6> Or </h6>
+                        <p> Register as <a href="{% url 'employer_user' %}" data-bs-toggle="modal"
+                            data-bs-target="#EmployerModal">Employer</a> </p>
+                        <p>Already Have an Account? <a href="{% url 'login' %}" data-bs-toggle="modal"
+                            data-bs-target="#LoginSignUp">Sign in</a> Here</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+    <!-- Registration Employer Modal -->
+    <form action="{% url 'employer_user' %}" method="post">
+        {% csrf_token %}
+        <div class="modal fade" id="EmployerModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Employer</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                       <!-- <p>{{reg_form.as_p}}</p>-->
+                        {{ reg_employer_form.non_field_errors }}
+                        <label for="id_name" class="login-labels">Name*</label>
+                        {{ reg_employer_form.name.errors }}
+                        {{ reg_employer_form.name|add_class:'form-control'|add_placeholder:'Your Name'}}
+                        <label for="id_email" class="login-labels">Email Address*</label>
+                        {{ reg_employer_form.email.errors }}
+                        {{ reg_employer_form.email|add_class:'form-control'|add_placeholder:'name@email.com'}}
+                        <label for="id_password1" class="login-labels">Password*</label>
+                        {{ reg_employer_form.password1.errors }}
+                        {{ reg_employer_form.password1|add_class:'form-control'|add_placeholder:'Password' }}
+                        <label for="id_password2" class="login-labels">Password Confirmation*</label>
+                        {{ reg_employer_form.password2.errors }}
+                        {{ reg_employer_form.password2|add_class:'form-control'|add_placeholder:'Password' }}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary my-3">submit</button>
+                        </div>
+                        <h6> Or </h6>
+                        <p> Register as <a href="{% url 'emp_user' %}" data-bs-toggle="modal"
+                            data-bs-target="#EmployeeModal">Employee</a> </p>
+                        <p>Already Have an Account? <a href="{% url 'login' %}" data-bs-toggle="modal"
+                            data-bs-target="#LoginSignUp">Sign in</a> Here</p>
+
                     </div>
                 </div>
             </div>

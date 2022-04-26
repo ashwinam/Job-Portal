@@ -7,7 +7,8 @@ def add_class(value, token):
     return value
 
 def add_placeholder(value, token):
-    value.field.widget.attrs['placement']=token
+    value.field.widget.attrs['placeholder']=token
+    return value
 
 register.filter(add_class)
 register.filter(add_placeholder)

@@ -4,9 +4,10 @@ from . import views
 
 
 urlpatterns = [
-    path('signup/', views.EmployeeRegistrationView.as_view(), name='newuser'),
+    path('employeeSignup/', views.EmployeeRegistrationView.as_view(), name='emp_user'),
     # path('login/', views.LogIn.as_view(), name='login'),
     # path('login/', LoginView.as_view(), name='login'),
+    path('employerSignup/', views.EmployerRegistrationView.as_view(), name='employer_user'),
     path('login/', views.loginHandler, name='login'),
     path('logout/', views.LogOut.as_view(), name='logout'),
 ]
