@@ -15,8 +15,12 @@
         integrity="sha512-gmJFuKTEQw6aHC2cWdrmdEHYw/M/8+bfsKmsJCcQ5hoI7WoOtkQ9hs7P0fqpBGRHHqBBJMibeCfhmk8So5qYUw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>Job Io | Home</title>
+    {% block head %}{% endblock head %}
+    <title> Job Io |{% block title %} Home{% endblock title %}</title>
 </head>
 
 <body>
@@ -85,9 +89,9 @@
                     </div>
                     <div class="modal-body">
                         {{ form.non_field_errors }}
-                        <label for="id_email" class="login-labels">Email Address*</label>
-                        {{ form.email.errors }}
-                        {{ form.email|add_class:'form-control'|add_placeholder:'name@email.com'}}
+                        <label for="id_username" class="login-labels">Email Address*</label>
+                        {{ form.username.errors }}
+                        {{ form.username|add_class:'form-control'|add_placeholder:'name@email.com'}}
                         <label for="id_password" class="login-labels">Password*</label>
                         {{ form.password.errors }}
                         {{ form.password|add_class:'form-control'|add_placeholder:'Password' }}
@@ -115,7 +119,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                       <!-- <p>{{reg_form.as_p}}</p>-->
+                        <!-- <p>{{reg_form.as_p}}</p>-->
                         {{ reg_form.non_field_errors }}
                         <label for="id_name" class="login-labels">Name*</label>
                         {{ reg_form.name.errors }}
@@ -134,9 +138,9 @@
                         </div>
                         <h6> Or </h6>
                         <p> Register as <a href="{% url 'employer_user' %}" data-bs-toggle="modal"
-                            data-bs-target="#EmployerModal">Employer</a> </p>
+                                data-bs-target="#EmployerModal">Employer</a> </p>
                         <p>Already Have an Account? <a href="{% url 'login' %}" data-bs-toggle="modal"
-                            data-bs-target="#LoginSignUp">Sign in</a> Here</p>
+                                data-bs-target="#LoginSignUp">Sign in</a> Here</p>
 
                     </div>
                 </div>
@@ -159,7 +163,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                       <!-- <p>{{reg_form.as_p}}</p>-->
+                        <!-- <p>{{reg_form.as_p}}</p>-->
                         {{ reg_employer_form.non_field_errors }}
                         <label for="id_name" class="login-labels">Name*</label>
                         {{ reg_employer_form.name.errors }}
@@ -178,9 +182,9 @@
                         </div>
                         <h6> Or </h6>
                         <p> Register as <a href="{% url 'emp_user' %}" data-bs-toggle="modal"
-                            data-bs-target="#EmployeeModal">Employee</a> </p>
+                                data-bs-target="#EmployeeModal">Employee</a> </p>
                         <p>Already Have an Account? <a href="{% url 'login' %}" data-bs-toggle="modal"
-                            data-bs-target="#LoginSignUp">Sign in</a> Here</p>
+                                data-bs-target="#LoginSignUp">Sign in</a> Here</p>
 
                     </div>
                 </div>
@@ -189,6 +193,7 @@
     </form>
     <!-- //navbar -->
 
+    {% block content %}
 
     <!-- Hero -->
     <div class="hero vh-100 d-flex align-items-center" id="home">
@@ -704,12 +709,12 @@
                 <div class="row">
                     <div class="col-md-6">
                         <p class="mb-0">© 2020 copyright all right reserved | Designed with <i
-                                class="bx bx-heart text-danger"></i> by<a
-                                href="https://www.youtube.com/channel/UCYMEEnLzGGGIpQQ3Nu_sBsQ"
-                                class="text-white">SA7MAN</a></p>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="social-icons">
+                            class="bx bx-heart text-danger"></i> by<a
+                            href="https://www.youtube.com/channel/UCYMEEnLzGGGIpQQ3Nu_sBsQ"
+                            class="text-white">SA7MAN</a></p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="social-icons">
                             <a href="#"><i class='bx bxl-facebook'></i></a>
                             <a href="#"><i class='bx bxl-twitter'></i></a>
                             <a href="#"><i class='bx bxl-instagram-alt'></i></a>
@@ -719,10 +724,12 @@
             </div>
         </div>
     </footer>
+    {% endblock content %}
     <!-- javascript cdn -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
+    {% block js %}{% endblock js %}
 </body>
 
 </html>

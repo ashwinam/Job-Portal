@@ -1,9 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import AuthenticationForm
+
+from .models import Employee
 from .forms import EmployeeRegistrationForm, EmployerRegistrationForm, LoginForm, NewUserRegistrationForm
 
 
@@ -26,14 +28,14 @@ class EmployerRegistrationView(CreateView):
 
 
 class LogIn(LoginView):
-    # template_name = 'accounts/login.html'
-    template_name = None
+    template_name = 'accounts/login.html'
 
 
 class LogOut(LogoutView):
     template_name='accounts/logout.html'
+    success_url = '/'
 
-
+"""
 def loginHandler(request):
     form = LoginForm
     if request.method == 'POST':
@@ -52,4 +54,13 @@ def loginHandler(request):
             return redirect('index')
     else:
         return HttpResponse('Not working')
-        
+"""
+
+
+class Profile(TemplateView):
+    template_name = 'accounts/profile.html'
+
+def profile(request):
+    employee = Employee.objects.get(email=request.user)
+    context = {'form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm, 'user':employee}
+    return render(request, 'accounts/profile.html', context)
