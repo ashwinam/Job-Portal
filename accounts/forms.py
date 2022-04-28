@@ -1,5 +1,5 @@
 from django import forms
-from .models import NewUser, Employee, Employer
+from .models import EmployeeProfile, NewUser, Employee, Employer
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -37,3 +37,13 @@ class EmployerRegistrationForm(UserCreationForm):
 class LoginForm(forms.Form):
     email = forms.EmailField(required=True)
     password = forms.CharField(widget=forms.PasswordInput)
+
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = EmployeeProfile
+        fields = [
+            'profile_pic',
+            'phone',
+            'age',
+            'gender'
+        ]

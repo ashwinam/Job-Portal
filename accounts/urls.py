@@ -9,7 +9,8 @@ urlpatterns = [
     path('login/', views.LogIn.as_view(), name='login'),
     path('logout/', views.LogOut.as_view(), name='logout'),
     # path('profile/', views.Profile.as_view(), name='profile'),
-    path('profile/', views.profile, name='profile'),
+    path('user-dashboard/', views.profile, name='user-dashboard'),
+    path('my-profile/<int:pk>', views.UpdateProfile.as_view(), name="profile-update"),
     # path('login/', LoginView.as_view(), name='login'),
     # path('login/', views.loginHandler, name='login'),
 ]

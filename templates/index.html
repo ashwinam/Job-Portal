@@ -88,13 +88,13 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        {{ form.non_field_errors }}
+                        {{ login_form.non_field_errors }}
                         <label for="id_username" class="login-labels">Email Address*</label>
-                        {{ form.username.errors }}
-                        {{ form.username|add_class:'form-control'|add_placeholder:'name@email.com'}}
+                        {{ login_form.username.errors }}
+                        {{ login_form.username|add_class:'form-control'|add_placeholder:'name@email.com'}}
                         <label for="id_password" class="login-labels">Password*</label>
-                        {{ form.password.errors }}
-                        {{ form.password|add_class:'form-control'|add_placeholder:'Password' }}
+                        {{ login_form.password.errors }}
+                        {{ login_form.password|add_class:'form-control'|add_placeholder:'Password' }}
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary my-3">Log In</button>
                         </div>

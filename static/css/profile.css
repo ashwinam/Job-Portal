@@ -16,11 +16,7 @@ body {
     transition: all 0.4s;
 }
 
-.nav-link:hover {
-    background: #f3f2f2;
-}
-
-/* .page-content {
+.page-content {
     width: calc(100% - 17rem);
     margin-left: 17rem;
     transition: all 0.4s;
@@ -52,6 +48,9 @@ body {
     text-transform: capitalize;
 }
 
+.nav-link:hover {
+    background: #f3f2f2;
+}
 
 .text-primary {
     color: #7579e7 !important;
@@ -75,4 +74,4 @@ body {
         margin-left: 17rem;
         width: calc(100% - 17rem);
     }
-} */
+}
