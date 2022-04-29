@@ -2,9 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView, TemplateView, UpdateView
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.forms import AuthenticationForm
+from django.urls import reverse_lazy
 from .models import Employee, EmployeeProfile
 from .forms import EmployeeRegistrationForm, EmployerRegistrationForm, LoginForm, NewUserRegistrationForm, UpdateProfileForm
 
@@ -79,8 +79,9 @@ class UpdateProfile(UpdateView):
 
 
 class UpdateUserPassword(PasswordChangeView):
-    form_class = PasswordChangeForm
     template_name = 'accounts/password_update.html'
     extra_context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm}
-    success_url = '/accounts/user-dashboard/'
+    success_url = reverse_lazy('user-dashboard')
 
+class UpdateUserPasswordDone(PasswordChangeDoneView):
+    template_name = 'accounts/password_update_done.html'
