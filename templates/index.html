@@ -27,7 +27,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-white">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{% url 'index' %}">
                 <img src="{% static 'images/logo/Job Io_croped_tra.png' %}" height="60px" width="170px" alt="logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03"
@@ -59,7 +59,7 @@
                             aria-haspopup="true" aria-expanded="false">{{user.name}}</a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href=" {% url 'logout' %} ">Log Out</a>
-                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="{% url 'user-dashboard' %}">User Dashboard</a>
                             <a class="dropdown-item" href="#">Something else here</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Separated link</a>
