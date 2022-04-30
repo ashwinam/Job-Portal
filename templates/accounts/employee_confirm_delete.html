@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 {% load static %}
 {% load custom_filters %}
-{% block title %}Profile{% endblock title %}
+{% block title %} Update Password{% endblock title %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock head %}
@@ -16,7 +16,6 @@
             <div class="media-body">
                 <h5 class="m-0 mx-2">{{user.name}}</h5>
                 <p class="font-weight-normal text-muted mx-2 mb-0">Web developer</p>
-                <button class="btn-sm btn-primary ms-2 mt-1">View Profile</button>
             </div>
         </div>
     </div>
@@ -95,15 +94,18 @@
 </div>
 
 <div class="page-content p-5">
-    <!-- <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i
-            class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">Toggle</small></button> -->
+    <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i
+            class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">Toggle</small></button>
 
-    <h3 class="display-4 text-black">User Dashboard Update Will Be shortly</h3>
-    <p class="lead text-black mb-0">Build a fixed sidebar using Bootstrap 4 vertical navigation and media objects.
+    <form action="{% url 'delete-user' user.id%}" method="post">
+        {% csrf_token %}
+    <h3 class="display-4 text-black">Delete Profile</h3>
+    <p class="lead text-black mb-0 my-4">Are you Sure! You want to Delete Your Profile.
     </p>
+    <button type="submit" class="btn-lg btn-danger my-4">Delete</button>
+</form>
 
 </div>
-
 
 {% block js %}
 <script>

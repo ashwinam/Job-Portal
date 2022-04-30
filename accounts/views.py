@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.views.generic import CreateView, TemplateView, UpdateView
+from django.views.generic import CreateView, TemplateView, UpdateView, DeleteView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
 from django.contrib.auth.forms import AuthenticationForm
@@ -85,3 +85,9 @@ class UpdateUserPassword(PasswordChangeView):
 
 class UpdateUserPasswordDone(PasswordChangeDoneView):
     template_name = 'accounts/password_update_done.html'
+
+
+class DeleteUser(DeleteView):
+    model = Employee
+    extra_context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm}
+    success_url = reverse_lazy('index')
