@@ -160,7 +160,7 @@ class Institution(models.Model):
     certificate_name = models.CharField(max_length=100, null=True, blank=True)
     institute_university_name = models.CharField(max_length=100, null=True, blank=True)
     start_date = models.DateTimeField(null=True, blank=True)
-    complete_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
     percentage_cgpa = models.SmallIntegerField(null=True, blank=True)
 
 
