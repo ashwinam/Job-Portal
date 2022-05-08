@@ -6,7 +6,7 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView,
 from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
 from .models import Employee, EmployeeProfile
-from .forms import EmployeeRegistrationForm, EmployerRegistrationForm, LoginForm, NewUserRegistrationForm, UpdateProfileForm
+from .forms import EmployeeRegistrationForm, EmployerRegistrationForm, InstitutionForm, LoginForm, NewUserRegistrationForm, UpdateProfileForm
 
 
 # Create your views here.
@@ -61,7 +61,7 @@ def loginHandler(request):
 class Profile(TemplateView):
     template_name = 'accounts/profile.html'
 
-def profile(request):
+def user_dashboard(request):
     employee = Employee.objects.get(email=request.user)
     context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm, 'user':employee}
     return render(request, 'accounts/profile.html', context)
@@ -91,3 +91,23 @@ class DeleteUser(DeleteView):
     model = Employee
     extra_context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm}
     success_url = reverse_lazy('index')
+
+
+# class InstitutionDetails(CreateView):
+#     template_name = 'accounts/institution.html'
+#     form_class = InstitutionForm
+#     context_object_name = "form_edu"
+#     extra_context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm}
+#     success_url = reverse_lazy('profile-update')
+
+def institution_details(request):
+    form_edu = InstitutionForm()
+    if request.method == "POST":
+        form_edu = InstitutionForm(request.POST)
+        if form_edu.is_valid():
+            marking = form_edu.save(commit=False)
+            marking.employee = request.user
+            form_edu.save()
+            return redirect('user-dashboard')
+    context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm, 'form_edu':form_edu}
+    return render(request, 'accounts/institution.html', context)

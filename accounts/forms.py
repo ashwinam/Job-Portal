@@ -1,5 +1,5 @@
 from django import forms
-from .models import EmployeeProfile, NewUser, Employee, Employer
+from .models import EmployeeProfile, NewUser, Employee, Employer, Institution
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -46,4 +46,15 @@ class UpdateProfileForm(forms.ModelForm):
             'phone',
             'age',
             'gender'
+        ]
+
+class InstitutionForm(forms.ModelForm):
+    class Meta:
+        model = Institution
+        fields = [
+            'certificate_name',
+            'institute_university_name',
+            'start_date',
+            'end_date',
+            'percentage_cgpa'
         ]

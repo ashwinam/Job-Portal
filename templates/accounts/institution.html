@@ -108,7 +108,13 @@
 
 <div class="page-content p-5">
     <h3 class="display-4 text-black">Education</h3>
-    <button type="button" class="btn-sm btn-primary"> <a href="{% url 'education-detail'%}" class="text-white"> Add Education Details
+
+    <form action="{% url 'education-detail'%}" method="post">
+        {% csrf_token %}
+        {{form_edu.as_p}}
+        <button type="submit">Save</button>
+    </form>
+    <button type="button" class="btn-sm btn-primary"> <a href="#" class="text-white"> Add Education Details
         </a></button>
 
 </div>
