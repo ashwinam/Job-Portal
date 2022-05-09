@@ -6,7 +6,7 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView,
 from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
 from .models import Employee, EmployeeProfile
-from .forms import EmployeeRegistrationForm, EmployerRegistrationForm, InstitutionForm, LoginForm, NewUserRegistrationForm, UpdateProfileForm
+from .forms import EmployeeRegistrationForm, EmployerRegistrationForm, ExperienceForm, InstitutionForm, LoginForm, NewUserRegistrationForm, UpdateProfileForm
 
 
 # Create your views here.
@@ -111,3 +111,17 @@ def institution_details(request):
             return redirect('user-dashboard')
     context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm, 'form_edu':form_edu}
     return render(request, 'accounts/institution.html', context)
+
+
+def experience_details(request):
+    form_exp = ExperienceForm
+    if request.method == "POST":
+        form_exp = ExperienceForm(request.POST)
+        if form_exp.is_valid():
+            marking = form_exp.save(commit=False)
+            marking.employee = request.user
+            form_exp.save()
+            return redirect('user-dashboard')
+
+    context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm, 'form_exp':form_exp}
+    return render(request, 'accounts/experience.html', context)

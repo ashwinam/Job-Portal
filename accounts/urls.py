@@ -16,6 +16,7 @@ urlpatterns = [
     path('my-profile/<int:pk>', views.UpdateProfile.as_view(), name="profile-update"),
     # path('my-profile/education/<int:pk>', views.InstitutionDetails.as_view(), name="education-detail"),
     path('my-profile/education/', views.institution_details, name="education-detail"),
+    path('my-profile/experience/', views.experience_details, name="experience-detail"),
     # path('login/', LoginView.as_view(), name='login'),
     # path('login/', views.loginHandler, name='login'),
 ]
