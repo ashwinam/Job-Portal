@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 {% load static %}
 {% load custom_filters %}
-{% block title %}Profile{% endblock title %}
+{% block title %} Update Password{% endblock title %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock head %}
@@ -11,12 +11,16 @@
 <div class="vertical-nav bg-white" id="sidebar">
     <div class="py-4 px-3 mb-4 bg-light">
         <div class="media d-flex align-items-center">
+            {% if request.user.type == "EMPLOYEE" %}
             <img loading="lazy" src="{{ user.employeeprofile.profile_pic.url }}" alt="..." width="80" height="80"
                 class="mr-3 rounded-circle img-thumbnail shadow-sm">
+                {% else %}
+                <img loading="lazy" src="{{ user.employerprofile.profile_pic.url }}" alt="..." width="80" height="80"
+                class="mr-3 rounded-circle img-thumbnail shadow-sm">
+                {% endif %}
             <div class="media-body">
                 <h5 class="m-0 mx-2">{{user.name}}</h5>
                 <p class="font-weight-normal text-muted mx-2 mb-0">Web developer</p>
-                <button class="btn-sm btn-primary ms-2 mt-1">View Profile</button>
             </div>
         </div>
     </div>
@@ -30,12 +34,21 @@
                 User Dashboard
             </a>
         </li>
+        {% if request.user.type == "EMPLOYEE" %}
         <li class="nav-item">
-            <a href="{% url 'profile-update' user.employeeprofile.id%}" class="nav-link text-dark">
+            <a href="{% url 'profile-employee' user.employeeprofile.id%}" class="nav-link text-dark">
                 <i class="fa fa-id-card mr-3 text-primary fa-fw"></i>
                 Profile
             </a>
         </li>
+        {% else %}
+        <li class="nav-item">
+            <a href="{% url 'profile-employer' user.employerprofile.id%}" class="nav-link text-dark">
+                <i class="fa fa-id-card mr-3 text-primary fa-fw"></i>
+                Profile
+            </a>
+        </li>
+        {% endif %}
         <li class="nav-item">
             <a href="#" class="nav-link text-dark">
                 <i class="fas fa-file-alt mr-3 text-primary fa-fw"></i>
@@ -95,15 +108,18 @@
 </div>
 
 <div class="page-content p-5">
-    <!-- <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i
-            class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">Toggle</small></button> -->
+    <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i
+            class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">Toggle</small></button>
 
-    <h3 class="display-4 text-black">User Dashboard Update Will Be shortly</h3>
-    <p class="lead text-black mb-0">Build a fixed sidebar using Bootstrap 4 vertical navigation and media objects.
+    <form action="{% url 'delete-user' user.id%}" method="post">
+        {% csrf_token %}
+    <h3 class="display-4 text-black">Delete Profile</h3>
+    <p class="lead text-black mb-0 my-4">Are you Sure! You want to Delete Your Profile.
     </p>
+    <button type="submit" class="btn-lg btn-danger my-4">Delete</button>
+</form>
 
 </div>
-
 
 {% block js %}
 <script>

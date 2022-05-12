@@ -1,6 +1,6 @@
 from dataclasses import fields
 from django import forms
-from .models import EmployeeProfile, NewUser, Employee, Employer, Institution, Experience
+from .models import EmployeeProfile, EmployerProfile, NewUser, Employee, Employer, Institution, Experience
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -39,7 +39,7 @@ class LoginForm(forms.Form):
     email = forms.EmailField(required=True)
     password = forms.CharField(widget=forms.PasswordInput)
 
-class UpdateProfileForm(forms.ModelForm):
+class UpdateEmployeeProfileForm(forms.ModelForm):
     class Meta:
         model = EmployeeProfile
         fields = [
@@ -47,6 +47,14 @@ class UpdateProfileForm(forms.ModelForm):
             'phone',
             'age',
             'gender'
+        ]
+
+class UpdateEmployerProfileForm(forms.ModelForm):
+    class Meta:
+        model = EmployerProfile
+        fields = [
+            'profile_pic',
+            'phone',
         ]
 
 class InstitutionForm(forms.ModelForm):

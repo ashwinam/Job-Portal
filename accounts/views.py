@@ -5,8 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
 from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
-from .models import Employee, EmployeeProfile
-from .forms import EmployeeRegistrationForm, EmployerRegistrationForm, ExperienceForm, InstitutionForm, LoginForm, NewUserRegistrationForm, UpdateProfileForm
+from .models import Employee, EmployeeProfile, Employer, EmployerProfile, NewUser
+from .forms import EmployeeRegistrationForm, EmployerRegistrationForm, ExperienceForm, InstitutionForm, LoginForm, NewUserRegistrationForm, UpdateEmployeeProfileForm, UpdateEmployerProfileForm
 
 
 # Create your views here.
@@ -62,21 +62,27 @@ class Profile(TemplateView):
     template_name = 'accounts/profile.html'
 
 def user_dashboard(request):
-    employee = Employee.objects.get(email=request.user)
+    employee = NewUser.objects.get(email=request.user)
     context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm, 'user':employee}
-    return render(request, 'accounts/profile.html', context)
+    return render(request, 'accounts/user_dashboard.html', context)
 
 def update_profile(request):
     context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm}
     return render(request, 'accounts/myprofile.html', context)
 
-class UpdateProfile(UpdateView):
+class UpdateEmployeeProfile(UpdateView):
     model = EmployeeProfile
-    form_class = UpdateProfileForm
+    form_class = UpdateEmployeeProfileForm
     template_name = 'accounts/myprofile.html'
     extra_context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm}
     success_url = '/accounts/user-dashboard/'
 
+class UpdateEmployerProfile(UpdateView):
+    model = EmployerProfile
+    form_class = UpdateEmployerProfileForm
+    template_name = 'accounts/myemployerprofile.html'
+    extra_context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm}
+    success_url = '/accounts/user-dashboard/'
 
 class UpdateUserPassword(PasswordChangeView):
     template_name = 'accounts/password_update.html'
@@ -88,7 +94,13 @@ class UpdateUserPasswordDone(PasswordChangeDoneView):
 
 
 class DeleteUser(DeleteView):
-    model = Employee
+    model = NewUser
+    extra_context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm}
+    success_url = reverse_lazy('index')
+
+
+class DeleteEmployerUser(DeleteView):
+    model = Employer
     extra_context = {'login_form':AuthenticationForm, 'reg_form':EmployeeRegistrationForm, 'reg_employer_form':EmployerRegistrationForm}
     success_url = reverse_lazy('index')
 

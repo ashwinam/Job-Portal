@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 {% load static %}
 {% load custom_filters %}
-{% block title %} Update Password{% endblock title %}
+{% block title %}Profile{% endblock title %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock head %}
@@ -11,13 +11,8 @@
 <div class="vertical-nav bg-white" id="sidebar">
     <div class="py-4 px-3 mb-4 bg-light">
         <div class="media d-flex align-items-center">
-            {% if request.user.type == "EMPLOYEE" %}
-            <img loading="lazy" src="{{ user.employeeprofile.profile_pic.url }}" alt="..." width="80" height="80"
+            <img loading="lazy" src="{{ user.employerprofile.profile_pic.url }}" alt="..." width="80" height="80"
                 class="mr-3 rounded-circle img-thumbnail shadow-sm">
-                {% else %}
-                <img loading="lazy" src="{{ user.employerprofile.profile_pic.url }}" alt="..." width="80" height="80"
-                class="mr-3 rounded-circle img-thumbnail shadow-sm">
-                {% endif %}
             <div class="media-body">
                 <h5 class="m-0 mx-2">{{user.name}}</h5>
                 <p class="font-weight-normal text-muted mx-2 mb-0">Web developer</p>
@@ -106,20 +101,17 @@
         </li>
     </ul>
 </div>
-
 <div class="page-content p-5">
-    <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i
-            class="fa fa-bars mr-2"></i><small class="text-uppercase font-weight-bold">Toggle</small></button>
 
-    <form action="{% url 'update-password'%}" method="post">
+    <form action="{% url 'profile-employer' user.employerprofile.id %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-    <h3 class="display-4 text-black">Update Password</h3>
-    <p class="lead text-black mb-0">{{form.as_p}}
-    </p>
-    <button type="submit" class="btn-lg btn-primary">Update</button>
-</form>
-
+        <h3 class="display-4 text-black">User Profile</h3>
+        <p class="lead text-black mb-0">{{form.as_p}}
+        </p>
+        <button type="submit" class="btn-lg btn-primary">Update</button>
+    </form>
 </div>
+
 
 {% block js %}
 <script>
