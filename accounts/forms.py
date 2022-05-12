@@ -1,6 +1,6 @@
 from dataclasses import fields
 from django import forms
-from .models import EmployeeProfile, EmployerProfile, NewUser, Employee, Employer, Institution, Experience
+from .models import Company, EmployeeProfile, EmployerProfile, NewUser, Employee, Employer, Institution, Experience
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -81,4 +81,15 @@ class ExperienceForm(forms.ModelForm):
             'job_location_state',
             'job_location_country',
             'about_job_role'
+        ]
+
+class CompanyForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = [
+            'name',
+            'description',
+            'establishment_date',
+            'address',
+            'website_url'
         ]
