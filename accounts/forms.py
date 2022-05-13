@@ -1,4 +1,3 @@
-from dataclasses import fields
 from django import forms
 from .models import Company, EmployeeProfile, EmployerProfile, NewUser, Employee, Employer, Institution, Experience
 from django.contrib.auth.forms import UserCreationForm

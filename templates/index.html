@@ -70,7 +70,9 @@
                 <button class="btn btn-outline-primary py-2 me-2" data-bs-toggle="modal"
                     data-bs-target="#LoginSignUp">Login / Register</button>
                 {% endif %}
-                <button class="btn btn-primary py-2">Job Post</button>
+                {% if request.user.type == "EMPLOYER" %}
+                <button class="btn btn-primary py-2"><a href="{% url 'job-post'%}" class="text-white">Job Post</a></button>
+                {% endif %}
             </div>
         </div>
     </nav>
